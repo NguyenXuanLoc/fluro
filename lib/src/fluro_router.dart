@@ -152,7 +152,12 @@ class FluroRouter {
     bool? opaque,
   }) {
     RouteSettings settingsToUse = routeSettings ?? RouteSettings(name: path);
-
+    if ((settingsToUse.name ?? "").contains("/?data={")) {
+      return RouteMatch(
+        matchType: RouteMatchType.noMatch,
+        errorMessage: "No matching route was found",
+      );
+    }
     if (settingsToUse.name == null) {
       settingsToUse = settingsToUse.copyWithShim(name: path);
     }
